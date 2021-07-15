@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'messages.apps.MessagesConfig',
     'users',
     'rest_framework',
+    'drf_yasg',
 
 ]
 

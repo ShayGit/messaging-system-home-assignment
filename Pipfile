@@ -15,7 +15,7 @@ sqlparse = "*"
 psycopg2 = "*"
 whitenoise = "*"
 django-heroku = "*"
-
+drf-yasg = "*"
 
 
 [requires]
