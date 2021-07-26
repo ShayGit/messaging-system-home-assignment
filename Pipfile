@@ -16,6 +16,7 @@ psycopg2 = "*"
 whitenoise = "*"
 django-heroku = "*"
 drf-yasg = "*"
+django-filter = "*"
 
 
 [requires]

@@ -92,7 +92,7 @@ class UserSignUpTestCase(APITestCase):
         )
 
     def test_user_can_get_unread_messages(self):
-        res = self.client.get(self.messages_url + "?unread=true", format="json",
+        res = self.client.get(self.messages_url + "?is_read=false", format="json",
                               HTTP_AUTHORIZATION='Bearer ' + self.user1token)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(

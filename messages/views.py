@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import mixins
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # Create your views here.
 
@@ -15,24 +17,16 @@ class MessageViewSet(mixins.CreateModelMixin,
                      mixins.DestroyModelMixin,
                      mixins.ListModelMixin,
                      GenericViewSet):
+    queryset = Message.objects.all()
     serializer_class = MessageSerializer
-
-    def get_queryset(self):
-        messages = Message.objects.all()
-        return messages
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['is_read']
 
     def perform_create(self, serializer):
-        serializer.save(sender=self.request.user, receiver=serializer.validated_data['receiver'])
+        serializer.save(sender=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset()).filter(receiver=request.user)
-        unread = request.query_params.get('unread', None)
-        messages = queryset
-        if unread is not None:
-            if unread == 'true':
-                messages = messages.filter(is_read=False)
-            elif unread == 'false':
-                messages = messages.filter(is_read=True)
+        messages = self.filter_queryset(self.get_queryset()).filter(receiver=request.user)
         serializer = self.get_serializer(messages, many=True)
         return Response(serializer.data)
 
